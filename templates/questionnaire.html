@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="/static/jquery-3.2.1.js"></script>
+    <script src="/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+</head>
+<body>
+<div class="col-md-2 col-md-offset-1" style="background-color: #2b669a;height: 60px">
+
+</div>
+<div class="col-md-8 col-md-offset-3">
+    <div class="pull-right">
+        <a class="btn btn-info" href="#" role="button">添加</a>
+        <a class="btn btn-success" href="#" role="button">保存</a>
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">编辑调查问卷题目</div>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                {% for question in question_list %}
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                <h4 style="float: left">问题{{ forloop.counter }}</h4>
+                                <button type="button" class="close" ><span
+                                        aria-hidden="true"> <a href="/del/{{ question.id }}/" style="text-decoration:none;">&times;</a></span></button>
+                                <div style="padding: 25px">
+                                    <br>
+                                    问题: <p><input type="text" class="form-control" value="{{ question.caption }}"></p>
+                                    类型:
+                                    <p><select class="form-control">
+                                        {% for k,v in question.question_types %}
+                                            <option value="{{ k }}">{{ v }}</option>
+                                        {% endfor %}
+                                    </select></p>
+                                    {% if option.value == 2 %}
+                                        <button>添加选项</button>
+                                    {% endif %}
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(".close").click(function () {
+        $.ajax({
+        })
+    })
+</script>
+
+
+
+</body>
+</html>
