@@ -20,5 +20,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^index/', views.index),
     url(r'^questionnaire/(\d+)', views.questionnaire),
-    url(r'^del/(\d+)', views.delete),
+    url(r'^submitque', views.submit_que),
 ]

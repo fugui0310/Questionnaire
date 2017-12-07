@@ -3,18 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.css">
     <script src="/static/jquery-3.2.1.js"></script>
     <script src="/static/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script src="/static/jquery.cookie.js"></script>
+
+    <style>
+        {#        .hide {#}
+        {#            display: none;#}
+        {#        }#}
+    </style>
 </head>
 <body>
-<div class="col-md-2 col-md-offset-1" style="background-color: #2b669a;height: 60px">
-
-</div>
-<div class="col-md-8 col-md-offset-3">
+{#<div class="col-md-2 col-md-offset-1" style="background-color: #2b669a;height: 60px">#}
+{##}
+{#</div>#}
+<div class="col-md-8 col-md-offset-2" style="margin-top: 50px">
     <div class="pull-right">
-        <a class="btn btn-info" href="#" role="button">添加</a>
-        <a class="btn btn-success" href="#" role="button">保存</a>
+        <a class="btn btn-info" href="#" role="button" id="add_question">添加</a>
+        <button class="btn btn-info" href="" role="button" id="submit_que">保存</button>
     </div>
     <div class="panel panel-primary">
         <div class="panel-heading">编辑调查问卷题目</div>
@@ -24,21 +31,22 @@
                     <div class="modal-content">
                         <div class="modal-body">
                             <form action="" method="post">
+                                {% csrf_token %}
                                 <h4 style="float: left">问题{{ forloop.counter }}</h4>
-                                <button type="button" class="close" ><span
-                                        aria-hidden="true"> <a href="/del/{{ question.id }}/" style="text-decoration:none;">&times;</a></span></button>
+                                <button type="button" class="close" id="{{ question.obj.id }}"> &times;</button>
                                 <div style="padding: 25px">
                                     <br>
-                                    问题: <p><input type="text" class="form-control" value="{{ question.caption }}"></p>
-                                    类型:
-                                    <p><select class="form-control">
-                                        {% for k,v in question.question_types %}
-                                            <option value="{{ k }}">{{ v }}</option>
+                                    问题:{{ question.form.caption }}
+                                    <p> 类型:{{ question.form.tp }}</p>
+                                    <div class="{{ question.option_class }}" id="add_opt"><span
+                                            class="glyphicon glyphicon-plus" style="margin-top: 3px">添加选项</span></div>
+                                    <ul>
+                                        {% for v in question.options %}
+                                            <li id="{{ v.obj.id }}" class="li_option">{{ v.form }}<span
+                                                    class="glyphicon glyphicon-remove pull-right" id="clear_li"></span>
+                                            </li>
                                         {% endfor %}
-                                    </select></p>
-                                    {% if option.value == 2 %}
-                                        <button>添加选项</button>
-                                    {% endif %}
+                                    </ul>
                                 </div>
                             </form>
                         </div>
@@ -48,15 +56,76 @@
         </div>
     </div>
 </div>
-
 <script>
+    $("#add_question").click(function () {
+        var str = $(".modal-content:first");
+        $(".panel-body").append(str.clone());
+        str.find(":input").each(function (i) {
+            str.val('');
+        });
+    });
+
+    $(document).on('change', '#id_tp', function () {
+        v = $('#id_tp').val();
+        if (v === 2) {
+            $(this).next().removeAttr("class");
+            $(this).parent().next().slideDown();
+            $(this).parent().next().next().slideDown()
+        }
+        else {
+            $(this).parent().next().slideUp();
+            $(this).parent().next().next().slideUp()
+        }
+    });
+
     $(".close").click(function () {
+        $(this).parent().parent().parent().remove()
+    });
+
+    $("#clear_li").click(function () {
+        $(this).parent().remove()
+    });
+
+    $("#add_opt").click(function () {
+        alert(123);
+        $("ul>li").append($(this).parent().next().clone())
+    });
+
+    $("#submit_que").click(function () {
+        d_list = [];
+        $(".panel-body>.panel-content").each(function (k, v) {
+            var dict = {
+                'caption': $(v).children('form').children('div').children('input').val(),
+                'type': $(v).children('form').children('div').children('select').val(),
+                'options': []
+            };
+            $('ul>li').each(function (m, n) {
+                var op_dic = {
+                    'option_name': $(n).children('input').val(),
+                    'option_score': $(n).children('#id_score').val()
+                };
+                dic['option'].push(op_dic);
+                alert(op_dic)
+
+            });
+            d_list.push(dict)
+        });
+        console.log(d_list);
         $.ajax({
+            url: "/submitque/",
+            type: "post",
+            headers: {"X-CSRFToken": $.cookie('csrftoken')},
+            data: {d_list: JSON.stringify(d_list)},
+            success: function (data) {
+            }
         })
-    })
+    });
+
+
+
+
+
 </script>
-
-
 
 </body>
 </html>

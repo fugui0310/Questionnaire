@@ -1,0 +1,186 @@
+s6day98
+
+回顾：
+	1. Git
+		init
+		commit
+		checkout 
+		status
+		branch
+		stash pop
+		pull
+		push
+		merge
+		fetch
+		add
+		log/reflog
+		reset
+		
+		问题：
+			建几个分支？
+				- master
+				- dev
+				- review
+				- 个人分支
+			开发流程：
+				...
+				
+			基于git做上线
+			
+			
+			
+	2. ModelForm
+		Form/ModelForm应用场景：对用户发送请求数据进行校验（是否为空、格式是否正确）
+		
+	
+	3. 问卷
+		yield
+		
+
+
+今日内容：
+	1. 调查问卷流程
+	
+	2. 会议室预定
+	
+	
+内容详细：
+	1. rebase
+	
+		git pull origin master 
+		
+		git fetch origin master 
+		git merge origin/master 
+	
+		
+		git fetch origin master 
+		git rebase origin/master 
+		
+		git add .
+		git rebase --continue
+	
+	
+	2. 调查问卷流程
+		a. 添加选项绑定事件
+			- 创建两个
+				<li>选项名称:<input /> 对应分支:<input /></li>  X
+				<li>选项名称:<input /> 对应分支:<input /></li>  X
+				<li>选项名称:<input /> 对应分支:<input /></li>  X
+				
+			- X绑定事件	
+				删除当前li标签
+			
+			- 事件委派绑定
+		b. 问题类型
+			- change事件
+				如果值是2，显示：添加选项
+				
+				如果是其他：隐藏添加选项/ ul.empty()
+	
+	
+	
+		c. 添加问题
+			$('li:first').clone()
+			
+			添加到ol中
+			
+		d. 删除问题
+		
+		e. 保存
+			pList = []
+		
+			$('ol>li').each(function(){
+				pList.push({'pid':1, 'title':'阿萨德','type':1})
+				// pList.push({'pid':1, 'title':'阿萨德','type':3})
+				// pList.push({'pid':1, 'title':'阿萨德','type':2,'options':[{'id':1,'title':'xx',val:9},{'id':'','title':'xx',val:9} ]})
+			})
+			
+			# 方式一：
+				$.ajax({
+					url:'xx',
+					type:'post',
+					data: JSON.stringfy(pList),
+					headers:{'Content-Type':'application/json'},
+					//contentType:'json',
+					success:function(arg){
+					}
+				
+				})
+				# 使用request.body取值
+				json.loads(request.body.decode('utf-8'))
+			
+			# 方式二：
+				$.ajax({
+					url:'xx',
+					type:'post',
+					data: {k1: JSON.stringfy(pList),'age':18}  // k1="[....]"&age=18
+					success:function(arg){
+					}
+				
+				})
+				
+				json.loads(request.POST.get('k1'))
+			
+			
+			
+			PS:
+				request.body   # 一定有值
+				request.POST   #  application/x-www-form-urlencoded/数据格式 name=alex&age=123
+			
+				
+				
+				
+	3. 会议室预定
+		
+		- 数据库设计
+		
+		- 页面设计
+				
+				
+				
+今日任务：
+	1. 问卷页面js
+	
+	2. 后台处理
+	
+	3. 会议室预定
+		- 数据库设计
+		- 页面设计
+				
+				
+				
+				
+				
+				
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
